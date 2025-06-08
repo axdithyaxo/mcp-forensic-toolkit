@@ -1,0 +1,29 @@
+[project]
+name = "mcp-forensic-toolkit"
+version = "0.1.0"
+description = "An MCP server exposing secure forensic tools for digital investigations."
+readme = "README.md"
+requires-python = ">=3.10"
+
+authors = [
+    { name = "Aadithya", email = "axdithya@gmail.com" }
+]
+
+license = { text = "MIT" }
+
+dependencies = [
+    "pytest>=8.4.0",
+    "python-dotenv",
+    "fastapi",
+    "uvicorn",
+    "typing-extensions",  # good for compatibility
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Security",
+    "Intended Audience :: Developers",
+    "Development Status :: 3 - Alpha"
+]
