@@ -27,11 +27,28 @@ jobs:
         python -m pip install --upgrade pip
         pip install poetry
 
-    - name: Configure Poetry to not create virtualenv
-      run: poetry config virtualenvs.create false
+    # DO NOT disable virtualenv creation to avoid errors
+    # - name: Configure Poetry to not create virtualenv
+    #   run: poetry config virtualenvs.create false
 
     - name: Install dependencies
       run: poetry install --no-interaction --no-ansi
 
-    - name: Run tests with pytest
-      run: pytest -v
+    - name: Run tests with pytest on Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        source $(poetry env info --path)/bin/activate
+        pytest -v
+
+    - name: Run tests with pytest on macOS
+      if: matrix.os == 'macos-latest'
+      run: |
+        source $(poetry env info --path)/bin/activate
+        pytest -v
+
+    - name: Run tests with pytest on Windows
+      if: matrix.os == 'windows-latest'
+      shell: powershell
+      run: |
+        . $(poetry env info --path)/Scripts/Activate.ps1
+        pytest -v
