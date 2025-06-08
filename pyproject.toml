@@ -4,25 +4,26 @@ version = "0.1.0"
 description = "An MCP server exposing secure forensic tools for digital investigations."
 authors = ["Aadithya <axdithya@gmail.com>"]
 readme = "README.md"
+
 packages = [
-    { include = "." }
+    { include = "mcp_forensic_toolkit" }
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Security",
+    "Intended Audience :: Developers",
+    "Development Status :: 3 - Alpha"
 ]
 
 [tool.poetry.dependencies]
 python = ">=3.10"
-pytest = ">=8.4.0"
 python-dotenv = "*"
 fastapi = "*"
 uvicorn = "*"
-typing-extensions = "*"  # good for compatibility
+typing-extensions = "*"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = ">=8.4.0"
-
-[tool.poetry.classifiers]
-"Programming Language :: Python :: 3"
-"License :: OSI Approved :: MIT License"
-"Operating System :: OS Independent"
-"Topic :: Security"
-"Intended Audience :: Developers"
-"Development Status :: 3 - Alpha"
