@@ -1,3 +1,7 @@
+![License](https://img.shields.io/badge/license-MIT-green)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![Build](https://github.com/axdithyaxo/mcp-forensic-toolkit/actions/workflows/ci.yml/badge.svg)
+
 # MCP Forensic Toolkit
 
 **MCP Forensic Toolkit** is a secure, AI-ready local server for digital forensics, built using the [Model Context Protocol (MCP)](https://github.com/modelcontextprotocol). It exposes semantically meaningful tools to analyze logs, verify file integrity, and generate audit-grade forensic reports. Designed for analysts and LLMs alike, it enables automated investigation with precision and safety.
