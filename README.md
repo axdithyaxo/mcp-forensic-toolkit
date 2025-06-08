@@ -41,6 +41,28 @@ This example demonstrates a successful correlation analysis between a file and s
 
 ## Installation
 
+### Using Poetry (recommended)
+
+```bash
+# Clone the repo
+git clone https://github.com/axdithyaxo/mcp-forensic-toolkit.git
+cd mcp-forensic-toolkit
+
+# Install Poetry if not already installed
+curl -sSL https://install.python-poetry.org | python3 -
+
+# Install dependencies and create virtual environment automatically
+poetry install
+
+# Activate the Poetry shell
+poetry shell
+
+# Create and configure environment variables
+cp .env.example .env
+# Edit .env and set your SAFE_BASE (e.g. /Users/yourname/Desktop)
+```
+
+### Using Python venv and pip (alternative)
 ```bash
 # Clone the repo
 git clone https://github.com/axdithyaxo/mcp-forensic-toolkit.git
@@ -48,17 +70,20 @@ cd mcp-forensic-toolkit
 
 # Create and activate a virtual environment
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Create and configure environment
+# Create and configure environment variables
 cp .env.example .env
 # Edit .env and set your SAFE_BASE (e.g. /Users/yourname/Desktop)
 ```
 
----
+### Note for Windows users:
+```bash
+# Use .venv\Scripts\activate to activate the virtual environment instead of source .venv/bin/activate.
+ ```
 
 ## Usage
 
