@@ -1,6 +1,6 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
-![Build](https://github.com/yourusername/mcp-forensic-toolkit/actions/workflows/ci.yml/badge.svg)
+![Build](https://github.com/axdithyaxo/mcp-forensic-toolkit/actions/workflows/ci.yml/badge.svg)
 
 # MCP Forensic Toolkit
 
