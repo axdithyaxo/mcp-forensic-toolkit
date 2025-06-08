@@ -4,7 +4,7 @@ import datetime
 import platform
 import subprocess
 from dotenv import load_dotenv
-from mcp_forensic_toolkit.fastmcp import FastMCP
+from mcp.server.fastmcp.server import FastMCP
 
 # -------------------- Load Environment --------------------
 load_dotenv()
