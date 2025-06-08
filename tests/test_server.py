@@ -1,16 +1,12 @@
 import os
 import platform
-from mcp_forensic_toolkit.server import (
-    file_metadata,
-    scan_syslog,
-    hash_directory,
-    generate_forensic_report,
-)
+from mcp_forensic_toolkit.server import file_metadata, scan_syslog, hash_directory, generate_forensic_report
 from mcp_forensic_toolkit.fastmcp import FastMCP
 
 
+
 def test_file_metadata_returns_sha256():
-    """Check that file_metadata returns a SHA-256 hash for a valid file."""
+    """Check that file_metadata returns a SHA-256 hash for a valid fisle."""
     test_path = os.path.join(os.path.dirname(__file__), "..", "mcp_forensic_toolkit", "server.py")
     test_path = os.path.abspath(test_path)
     assert os.path.exists(test_path), f"Test file not found: {test_path}"

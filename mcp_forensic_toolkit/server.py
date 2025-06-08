@@ -4,7 +4,7 @@ import datetime
 import platform
 import subprocess
 from dotenv import load_dotenv
-from mcp.server.fastmcp import FastMCP
+from mcp_forensic_toolkit.fastmcp import FastMCP
 
 # -------------------- Load Environment --------------------
 load_dotenv()
@@ -37,8 +37,6 @@ def scan_syslog(keyword: str) -> list[str]:
     Returns:
         list[str]: Matching log lines (max 100), or an error message.
     """
-    import subprocess
-
     system = platform.system()
 
     try:
@@ -111,8 +109,6 @@ def hash_directory(path: str) -> dict:
                 results[full_path] = f"Error: {str(e)}"
     return results
 
-import os
-
 @mcp.tool()
 def correlate_file_and_logs(filename: str, keyword: str = "modified") -> dict:
     """
@@ -145,6 +141,7 @@ def correlate_file_and_logs(filename: str, keyword: str = "modified") -> dict:
         "log_hits": log_results[:10],
         "correlation_found": correlation_found
     }
+
 @mcp.tool()
 def generate_forensic_report(filename: str, keyword: str = "modified") -> dict:
     """
@@ -178,6 +175,7 @@ def generate_forensic_report(filename: str, keyword: str = "modified") -> dict:
         "log_hits": result["log_hits"],
         "correlation_found": result["correlation_found"]
     }
+
 # -------------------- Prompts --------------------
 @mcp.prompt("investigate-file")
 def investigate_file_prompt(filename: str) -> str:
