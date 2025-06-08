@@ -1,7 +1,7 @@
 import os
 import platform
 from mcp_forensic_toolkit.server import file_metadata, scan_syslog, hash_directory, generate_forensic_report
-from mcp_forensic_toolkit.fastmcp import FastMCP
+from mcp.server.fastmcp.server import FastMCP
 
 def test_file_metadata_returns_sha256():
     """Check that file_metadata returns a SHA-256 hash for a valid file."""
