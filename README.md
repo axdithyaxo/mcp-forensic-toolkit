@@ -174,7 +174,7 @@ pytest test_server.py -v
 
 ## Usage Examples
 
-### Example: Investigate File Prompt in Claude Desktop
+### Example: "Investigate File" Prompt in Claude Desktop
 **Prompt Given**
 
 Use the investigate-file prompt to analyze the file at "/Users/username/Desktop/test_hit.txt".
@@ -246,6 +246,7 @@ MIT License
 
 ## Acknowledgments
 
-* Model Context Protocol
-* FastMCP Python SDK
-* Inspired by secure AI-agent interfacing for infrastructure automation
+* The Model Context Protocol (MCP) team and community for creating an innovative standard enabling interoperable AI tool integration.
+* The FastMCP Python SDK developers for providing a robust and user-friendly framework to build MCP servers.
+* The broader open-source and digital forensics communities for inspiring secure and effective AI-driven investigative tooling.
+* Projects and initiatives focused on secure AI-agent interfacing and infrastructure automation, which shaped the vision behind this toolkit.
