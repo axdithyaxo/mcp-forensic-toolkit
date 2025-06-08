@@ -11,10 +11,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            safe_base: /home/runner/work/mcp-forensic-toolkit/mcp-forensic-toolkit
+          - os: macos-latest
+            safe_base: /Users/runner/work/mcp-forensic-toolkit/mcp-forensic-toolkit
+          - os: windows-latest
+            safe_base: C:\Users\runner\work\mcp-forensic-toolkit\mcp-forensic-toolkit
 
     env:
-      SAFE_BASE: /Users/runner/work/mcp-forensic-toolkit/mcp-forensic-toolkit  # Adjust path if needed
+      SAFE_BASE: ${{ matrix.safe_base }}
 
     steps:
       - name: Checkout repository
