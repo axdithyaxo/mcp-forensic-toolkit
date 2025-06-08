@@ -27,3 +27,12 @@ classifiers = [
     "Intended Audience :: Developers",
     "Development Status :: 3 - Alpha"
 ]
+[tool.poetry]
+name = "mcp-forensic-toolkit"
+version = "0.1.0"
+description = "An MCP server exposing secure forensic tools for digital investigations."
+authors = ["Aadithya <axdithya@gmail.com>"]
+
+packages = [
+    { include = "." }
+]
