@@ -20,18 +20,15 @@ jobs:
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'
+        python-version: 3.11
 
     - name: Install Poetry
       run: |
         python -m pip install --upgrade pip
         pip install poetry
 
-    - name: Configure Poetry to not create virtualenv
-      run: poetry config virtualenvs.create false
-
-    - name: Install dependencies
+    - name: Install dependencies with Poetry
       run: poetry install --no-interaction --no-ansi
 
     - name: Run tests with pytest
-      run: pytest -v
+      run: poetry run pytest -v
