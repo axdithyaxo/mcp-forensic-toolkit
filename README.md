@@ -41,6 +41,17 @@ This example demonstrates a successful correlation analysis between a file and s
 
 ## Installation
 
+## Dependencies
+
+- Python >= 3.10
+- Poetry (recommended) or pip for dependency management
+- Key Python packages installed automatically:
+  - modelcontext
+  - fastapi
+  - uvicorn
+  - python-dotenv
+  - typing-extensions
+
 ### Using Poetry (recommended)
 
 ```bash
