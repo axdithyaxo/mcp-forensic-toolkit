@@ -89,11 +89,12 @@ cp .env.example .env
 
 ### Start the Server
 
+Make sure you have the MCP CLI installed (`pip install modelcontext`) and dependencies installed (`poetry install` or `pip install -r requirements.txt`).
+
+Then start the server:
+
 ```bash
 mcp dev server.py
-```
-
-`server.py` is the entry point and defines all MCP tools, prompts, and resources.
 
 ---
 
