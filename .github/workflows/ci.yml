@@ -1,4 +1,4 @@
-name: Python CI with Poetry
+name: Debug CI Environment
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  debug:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -26,29 +26,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: List repository files (debug)
-        if: runner.os == 'Windows'
-        run: dir /s
-
-      - name: List repository files (debug)
-        if: runner.os != 'Windows'
-        run: ls -R
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install Poetry
+      - name: Print OS info
         run: |
-          python -m pip install --upgrade pip
-          pip install poetry
+          echo "Running on OS: $RUNNER_OS"
+          python --version
 
-      - name: Configure Poetry to not create virtualenv
-        run: poetry config virtualenvs.create false
+      - name: List root directory files
+        run: |
+          echo "Listing root files"
+          ls -al ${{ github.workspace }}
 
-      - name: Install dependencies
-        run: poetry install --no-interaction --no-ansi
+      - name: List SAFE_BASE contents
+        run: |
+          echo "Listing SAFE_BASE path: $SAFE_BASE"
+          ls -al "$SAFE_BASE"
 
-      - name: Run tests with pytest
-        run: pytest -v
+      - name: Show environment variables
+        run: env
