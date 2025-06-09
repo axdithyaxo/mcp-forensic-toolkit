@@ -30,24 +30,43 @@ jobs:
         run: |
           echo "Running on OS: $RUNNER_OS"
           python --version
+        shell: bash
 
-      - name: List root directory files
+      - name: List root directory files (Windows)
+        if: runner.os == 'Windows'
         run: |
-          echo "Listing root files"
-          if [ "$RUNNER_OS" = "Windows" ]; then
-            dir
-          else
-            ls -al
-          fi
+          echo "Listing root files (Windows)"
+          dir
+        shell: pwsh
 
-      - name: List SAFE_BASE contents
+      - name: List root directory files (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: |
+          echo "Listing root files (Linux/macOS)"
+          ls -al
+        shell: bash
+
+      - name: List SAFE_BASE contents (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          echo "Listing SAFE_BASE path: $env:SAFE_BASE"
+          dir $env:SAFE_BASE
+        shell: pwsh
+
+      - name: List SAFE_BASE contents (Linux/macOS)
+        if: runner.os != 'Windows'
         run: |
           echo "Listing SAFE_BASE path: $SAFE_BASE"
-          if [ "$RUNNER_OS" = "Windows" ]; then
-            dir "$SAFE_BASE"
-          else
-            ls -al "$SAFE_BASE"
-          fi
+          ls -al "$SAFE_BASE"
+        shell: bash
 
-      - name: Show environment variables
+      - name: Show environment variables (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          Get-ChildItem Env:
+        shell: pwsh
+
+      - name: Show environment variables (Linux/macOS)
+        if: runner.os != 'Windows'
         run: env
+        shell: bash
