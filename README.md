@@ -105,7 +105,7 @@ Make sure you have the MCP CLI installed (`pip install modelcontext`) and depend
 Then start the server:
 
 ```bash
-mcp dev server.py
+mcp dev mcp_forensic_toolkit/server.py
 
 ---
 
