@@ -31,7 +31,7 @@ jobs:
           echo "Running on OS: $RUNNER_OS"
           python --version
         shell: bash
-     
+
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
@@ -41,12 +41,23 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install poetry
+        shell: bash
 
       - name: Configure Poetry to not create virtualenv
         run: poetry config virtualenvs.create false
+        shell: bash
 
       - name: Install dependencies
         run: poetry install --no-interaction --no-ansi
+        shell: bash
 
       - name: Run tests with pytest
         run: pytest -v
+        shell: bash
+
+      # For Windows, use PowerShell explicitly on Windows runs
+      - name: Windows-specific commands
+        if: runner.os == 'Windows'
+        run: |
+          echo "Running Windows-specific setup if needed"
+        shell: pwsh
