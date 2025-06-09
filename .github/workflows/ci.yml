@@ -1,4 +1,4 @@
-name: Debug CI Environment
+name: Python CI with Poetry
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  debug:
+  test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -17,7 +17,7 @@ jobs:
           - os: macos-latest
             safe_base: /Users/runner/work/mcp-forensic-toolkit/mcp-forensic-toolkit
           - os: windows-latest
-            safe_base: C:\Users\runner\work\mcp-forensic-toolkit\mcp-forensic-toolkit
+            safe_base: D:\a\mcp-forensic-toolkit\mcp-forensic-toolkit
 
     env:
       SAFE_BASE: ${{ matrix.safe_base }}
@@ -70,3 +70,22 @@ jobs:
         if: runner.os != 'Windows'
         run: env
         shell: bash
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Poetry
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+
+      - name: Configure Poetry to not create virtualenv
+        run: poetry config virtualenvs.create false
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-ansi
+
+      - name: Run tests with pytest
+        run: pytest -v
