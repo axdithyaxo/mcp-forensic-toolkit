@@ -34,12 +34,20 @@ jobs:
       - name: List root directory files
         run: |
           echo "Listing root files"
-          ls -al ${{ github.workspace }}
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            dir
+          else
+            ls -al
+          fi
 
       - name: List SAFE_BASE contents
         run: |
           echo "Listing SAFE_BASE path: $SAFE_BASE"
-          ls -al "$SAFE_BASE"
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            dir "$SAFE_BASE"
+          else
+            ls -al "$SAFE_BASE"
+          fi
 
       - name: Show environment variables
         run: env
