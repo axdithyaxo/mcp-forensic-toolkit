@@ -26,6 +26,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: List repository files (debug)
+        if: runner.os == 'Windows'
+        run: dir /s
+
+      - name: List repository files (debug)
+        if: runner.os != 'Windows'
+        run: ls -R
+
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
