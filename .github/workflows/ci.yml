@@ -17,7 +17,7 @@ jobs:
           - os: macos-latest
             safe_base: /Users/runner/work/mcp-forensic-toolkit/mcp-forensic-toolkit
           - os: windows-latest
-            safe_base: C:\Users\runner\work\mcp-forensic-toolkit\mcp-forensic-toolkit
+            safe_base: C:\Users\runner\work\mcp-forensic-toolkit\mcp-forensic-toolkit\mcp_forensic_toolkit\server.py
 
     env:
       SAFE_BASE: ${{ matrix.safe_base }}
