@@ -24,7 +24,7 @@
 
 This example demonstrates a successful correlation analysis between a file and system log entries using the `generate_forensic_report` tool:
 
-![Example Correlation Report](assets/example-report.png)
+![Example Correlation Report](assets/report_screenshot.png)
 
 ---
 
