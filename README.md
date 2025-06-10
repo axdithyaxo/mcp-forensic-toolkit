@@ -303,7 +303,7 @@ To connect MCP Forensic Toolkit with Claude Desktop:
     }
   }
 }
-
+```
 ## Demo Video
 
 Watch the MCP Forensic Toolkit demo video here:
