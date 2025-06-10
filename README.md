@@ -307,10 +307,7 @@ To connect MCP Forensic Toolkit with Claude Desktop:
 ## Demo Video
 
 Watch the MCP Forensic Toolkit demo video here:
-
-[![Demo Video](https://upload.wikimedia.org/wikipedia/commons/7/75/Google_Drive_logo.png)](https://drive.google.com/file/d/1MFaXzhFwMfLNfk5Ew_Sko5biDldXQTPb/view?usp=share_link)
-
-Or click this link to watch it directly:  
+ 
 [Demo Video on Google Drive](https://drive.google.com/file/d/1MFaXzhFwMfLNfk5Ew_Sko5biDldXQTPb/view?usp=share_link)
 
 ## License
