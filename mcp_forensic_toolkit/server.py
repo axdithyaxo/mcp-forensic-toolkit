@@ -7,7 +7,9 @@ from dotenv import load_dotenv
 from mcp.server.fastmcp.server import FastMCP
 
 # -------------------- Load Environment --------------------
-load_dotenv()
+# Load .env from parent directory (project root)
+env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
+load_dotenv(env_path)
 
 SAFE_BASE = os.getenv("SAFE_BASE")
 if not SAFE_BASE:
@@ -15,7 +17,16 @@ if not SAFE_BASE:
 
 # -------------------- Helpers --------------------
 def is_safe_path(path: str, base_dir: str = SAFE_BASE) -> bool:
-    return os.path.abspath(path).startswith(os.path.abspath(base_dir))
+    """
+    Check if the given path is within the allowed base directory.
+    Handles cross-platform path comparisons (case-insensitive on Windows).
+    """
+    abs_path = os.path.normcase(os.path.abspath(path))
+    abs_base = os.path.normcase(os.path.abspath(base_dir))
+    # Ensure base ends with separator to prevent partial matches (e.g., /safe vs /safety)
+    if not abs_base.endswith(os.sep):
+        abs_base += os.sep
+    return abs_path.startswith(abs_base) or abs_path == abs_base.rstrip(os.sep)
 
 # -------------------- MCP Server --------------------
 mcp = FastMCP("ForensicToolkit")
@@ -26,9 +37,9 @@ def scan_syslog(keyword: str) -> list[str]:
     """
     Scan system log files or unified logs for a given keyword.
 
-    - On Linux: Reads from /var/log/syslog
+    - On Linux: Reads from /var/log/syslog (or /var/log/messages as fallback)
     - On macOS: Uses `log show` to search unified system logs
-    - Skips common header lines in macOS output
+    - On Windows: Uses PowerShell Get-WinEvent to search System and Application logs
     - Returns up to 100 relevant log lines
 
     Parameters:
@@ -41,9 +52,12 @@ def scan_syslog(keyword: str) -> list[str]:
 
     try:
         if system == "Linux":
+            # Try syslog first, fall back to messages
             log_path = "/var/log/syslog"
             if not os.path.exists(log_path):
-                return [f"Log file '{log_path}' not found."]
+                log_path = "/var/log/messages"
+            if not os.path.exists(log_path):
+                return [f"No log file found at /var/log/syslog or /var/log/messages."]
             with open(log_path, "r") as f:
                 lines = [line for line in f if keyword.lower() in line.lower()]
                 return lines[-100:] if lines else ["No matching entries found."]
@@ -62,8 +76,42 @@ def scan_syslog(keyword: str) -> list[str]:
             ]
             return lines[-100:] if lines else ["No matching entries found."]
 
+        elif system == "Windows":
+            # Use PowerShell Get-WinEvent to query System and Application logs
+            # Escape single quotes in keyword for PowerShell
+            safe_keyword = keyword.replace("'", "''")
+
+            # Query both System and Application logs for comprehensive coverage
+            ps_script = f"""
+$keyword = '{safe_keyword}'
+$logs = @('System', 'Application')
+$results = @()
+foreach ($logName in $logs) {{
+    try {{
+        $events = Get-WinEvent -LogName $logName -MaxEvents 500 -ErrorAction SilentlyContinue |
+            Where-Object {{ $_.Message -like "*$keyword*" }} |
+            Select-Object -First 50
+        foreach ($event in $events) {{
+            $time = $event.TimeCreated.ToString('yyyy-MM-dd HH:mm:ss')
+            $results += "$time [$logName] $($event.LevelDisplayName): $($event.Message -replace '\\r?\\n', ' ')"
+        }}
+    }} catch {{ }}
+}}
+$results | Select-Object -Last 100
+"""
+            result = subprocess.run(
+                ["powershell", "-NoProfile", "-Command", ps_script],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                creationflags=subprocess.CREATE_NO_WINDOW if hasattr(subprocess, 'CREATE_NO_WINDOW') else 0
+            )
+            if result.returncode != 0:
+                return [f"PowerShell error: {result.stderr.strip()}"]
+
+            lines = [line.strip() for line in result.stdout.splitlines() if line.strip()]
+            return lines[-100:] if lines else ["No matching entries found."]
+
         else:
-            return [f"Unsupported OS: {system}"]
+            return [f"Unsupported OS: {system}. Supported: Linux, macOS, Windows."]
 
     except Exception as e:
         return [f"Error reading logs: {str(e)}"]
@@ -190,6 +238,7 @@ def investigate_file_prompt(filename: str) -> str:
 def triage_logs_prompt(keyword: str = "error") -> str:
     return (
         f"Search the system log for the keyword '{keyword}' using the `scan_syslog` tool. "
+        "This works on Linux (syslog), macOS (unified logs), and Windows (Event Logs). "
         "Summarize the most relevant lines that indicate errors, warnings, or security-related events. "
         "Explain whether immediate action may be necessary."
     )
@@ -215,13 +264,21 @@ def explain_correlation_prompt(filename: str, keyword: str = "modified") -> str:
 @mcp.resource("toolkit://about")
 def about_toolkit() -> str:
     return (
-        "🔍 MCP Forensic Toolkit — a secure, AI-integrated server for digital forensics.\n\n"
-        " Key Features:\n"
+        "MCP Forensic Toolkit - a secure, AI-integrated server for digital forensics.\n\n"
+        "Key Features:\n"
         "- Log file triage using keyword-based search\n"
         "- File metadata and integrity checks via SHA-256\n"
         "- Cross-correlation between log entries and file activity\n\n"
-        " Configuration:\n"
+        "Supported Platforms:\n"
+        "- Linux: Reads from /var/log/syslog or /var/log/messages\n"
+        "- macOS: Uses unified logging via 'log show'\n"
+        "- Windows: Queries System and Application event logs via PowerShell\n\n"
+        "Configuration:\n"
         "Set a safe base directory using the SAFE_BASE variable in a `.env` file to limit file access.\n"
         "Default base directory: ~/Desktop\n\n"
-        " Use built-in prompts or tools via MCP Inspector or any LLM-compatible interface."
+        "Use built-in prompts or tools via MCP Inspector or any LLM-compatible interface."
     )
+
+# -------------------- Entry Point --------------------
+if __name__ == "__main__":
+    mcp.run()
