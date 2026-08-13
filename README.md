@@ -1,3 +1,5 @@
+
+
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![Build](https://github.com/axdithyaxo/mcp-forensic-toolkit/actions/workflows/ci.yml/badge.svg)
@@ -130,7 +132,7 @@ You can then:
 You can run a command-line demo as follows:
 
 ```bash
-python cli_demo.py ~/Desktop/test_hit.txt correlation
+python mcp_forensic_toolkit/cli_demo.py ~/Desktop/test_hit.txt correlation
 ```
 
 If correlation is found, output includes:
@@ -322,4 +324,3 @@ MIT License
 * The FastMCP Python SDK developers for providing a robust and user-friendly framework to build MCP servers.
 * The broader open-source and digital forensics communities for inspiring secure and effective AI-driven investigative tooling.
 * Projects and initiatives focused on secure AI-agent interfacing and infrastructure automation, which shaped the vision behind this toolkit.
-
